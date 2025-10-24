@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WATVIO - September Industries</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Prime Video-like Aesthetics */
+        :root {
+            --primary-bg: #0C1014; /* Deep Black/Blue Background */
+            --secondary-bg: #1A212A; /* Card and secondary element background */
+            --accent-color: #00A8E1; /* WATVIO Signature Blue/Cyan */
+            --text-color: #F8F8F8; /* Near-white text */
+            --text-muted: #A0A0A0;
+            --header-height: 60px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- Global Elements & Utility --- */
+        .container-padding {
+            padding: 20px 40px;
+        }
+        
+        .watvio-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-color);
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 8px rgba(0, 168, 225, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* --- Login Page Animation & Style --- */
+        #login-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, rgba(12, 16, 20, 1) 0%, rgba(2, 5, 10, 1) 100%);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .login-box {
+            background-color: var(--secondary-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            width: 90%;
+            max-width: 400px;
+            animation: fadeInScale 0.6s ease-out;
+        }
+        
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .input-style {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #334;
+            border-radius: 6px;
+            background-color: #213547;
+            color: var(--text-color);
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        .input-style:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 168, 225, 0.3);
+        }
+
+        .watvio-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            padding: 12px 20px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .watvio-btn:hover {
+            background-color: #00c0ff;
+        }
+        .watvio-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            transition: background-color 0.2s;
+        }
+        .btn-outline:hover {
+            background-color: rgba(0, 168, 225, 0.1);
+        }
+
+        /* --- Header and Navigation --- */
+        header {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            background-color: var(--secondary-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .nav-button:hover {
+            color: var(--text-color);
+        }
+        .nav-button.active {
+            color: var(--accent-color);
+        }
+        .nav-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 2px 2px 0 0;
+        }
+        
+        /* --- Content Cards (Carousel) --- */
+        .content-row h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 0 40px;
+        }
+        
+        .content-scroll-container {
+            display: flex;
+            overflow-x: scroll;
+            padding: 0 40px 20px;
+            gap: 15px;
+            /* Hide scrollbar for aesthetics */
+            scrollbar-width: none; /* Firefox */
+        }
+        .content-scroll-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
+
+        /* Card sizing for 16:9 ratio (Default Desktop Size) */
+        .content-card {
+            flex: 0 0 280px;
+            height: 157.5px; /* 16:9 ratio based on 280px width */
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            position: relative;
+            background-color: var(--secondary-bg); /* Fallback/Base color */
+        }
+
+        .content-card:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            box-shadow: 0 8px 20px rgba(0, 168, 225, 0.4);
+        }
+        
+        .content-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .overlay-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px 12px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            text-align: left;
+            font-size: 14px;
+            color: white;
+            font-weight: 700;
+        }
+
+        /* --- Modal Styles --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            padding-top: 50px;
+        }
+
+        .modal-content {
+            background-color: var(--secondary-bg);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            position: relative;
+            animation: modalSlide 0.3s ease-out;
+        }
+        
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            color: var(--text-muted);
+            float: right;
+            font-size: 36px;
+            font-weight: light;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--text-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .plan-card {
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: var(--primary-bg);
+            transition: border-color 0.3s;
+        }
+        .plan-card h3 {
+            color: var(--accent-color);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Episode List */
+        .episode-link {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #1A212A;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .episode-link:hover {
+            background-color: #2e3e52;
+            border-left-color: var(--accent-color);
+        }
+
+        .episode-link .ep-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-right: 15px;
+            min-width: 70px;
+        }
+
+        /* Mobile Adjustments (Responsive Design) - Enhanced */
+        @media (max-width: 640px) {
+            /* Adjust Layout Padding/Margins */
+            header, .container-padding, .content-scroll-container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            header {
+                height: 50px;
+            }
+            .watvio-logo {
+                font-size: 24px;
+                margin-right: 15px; /* Tighter spacing */
+            }
+            .nav-button {
+                font-size: 14px;
+                padding: 8px 8px; /* Tighter padding for nav buttons */
+                margin: 0 2px;
+            }
+            
+            /* Content Card Sizing */
+            .content-card {
+                flex: 0 0 160px; /* Smaller card size for mobile */
+                height: 90px; /* Maintain 16:9 ratio (160 * 9 / 16) */
+            }
+            .content-row h2 {
+                padding: 0 15px;
+            }
+            .overlay-text {
+                font-size: 12px;
+            }
+
+            /* Login Box */
+            .login-box {
+                width: 95%;
+                padding: 30px 20px;
+            }
+
+            /* Modal Adjustments */
+            .modal {
+                padding-top: 20px; /* Bring modal up higher */
+            }
+            .modal-content {
+                margin: 20px auto;
+                padding: 20px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-page">
+        <div class="login-box">
+            <h1 class="watvio-logo mb-6 text-center">WATVIO</h1>
+            <h2 class="text-2xl font-semibold mb-6 text-center">Sign In to WATVIO</h2>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium mb-1" style="color: var(--text-muted);">Username</label>
+                    <input type="text" id="username" class="input-style" required>
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium mb-1" style="color: var(--text-muted);">Password</label>
+                    <input type="password" id="password" class="input-style" required>
+                </div>
+                <button type="submit" class="watvio-btn w-full">Login</button>
+            </form>
+            <button id="plans-btn" class="watvio-btn btn-outline w-full mt-4" onclick="openPlansModal()">About Plans</button>
+        </div>
+        <p class="mt-8 text-xs text-center" style="color: var(--text-muted);">
+            A September Industries Production
+        </p>
+    </div>
+
+    <div id="content-page" style="display: none; opacity: 0; transition: opacity 0.5s ease-in-out;">
+        <header>
+            <div class="watvio-logo mr-8">WATVIO</div>
+            <nav class="flex">
+                <button id="nav-home" class="nav-button" onclick="switchContent('home')">Home</button>
+                <button id="nav-shows" class="nav-button" onclick="switchContent('shows')">Shows</button>
+                <button id="nav-movies" class="nav-button" onclick="switchContent('movies')">Movies</button>
+                <button id="nav-vlogs" class="nav-button" onclick="switchContent('vlogs')">Vlogs</button>
+            </nav>
+            <div class="ml-auto">
+                <button class="watvio-btn btn-outline text-sm px-4 py-2" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <main id="main-content" class="py-10">
+        </main>
+    </div>
+
+    <div id="plans-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closePlansModal()">&times;</span>
+            <h2 class="text-3xl font-bold mb-5 text-center" style="color: var(--accent-color);">Subscription Plans</h2>
+            <p class="text-center mb-6" style="color: var(--text-muted);">Choose the perfect plan for high-quality streaming.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="plan-card">
+                    <h3 class="mb-2">Basic</h3>
+                    <div class="text-4xl font-extrabold mb-2">₹19</div>
+                    <p>1 Month</p>
+                    <p>Resolution: 480p</p>
+                </div>
+                <div class="plan-card border-2" style="border-color: var(--accent-color);">
+                    <h3 class="mb-2">Standard</h3>
+                    <div class="text-4xl font-extrabold mb-2">₹29</div>
+                    <p>2 Months</p>
+                    <p>Resolution: 720p</p>
+                </div>
+                <div class="plan-card">
+                    <h3 class="mb-2">Premium</h3>
+                    <div class="text-4xl font-extrabold mb-2">₹39</div>
+                    <p>3 Months</p>
+                    <p>Resolution: 1080p</p>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <button class="watvio-btn">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="episode-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEpisodeModal()">&times;</span>
+            <h2 id="episode-modal-title" class="text-3xl font-bold mb-6"></h2>
+            <div class="flex flex-col gap-2" id="episode-links-container">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data ---
+        const VALID_CREDENTIALS = {
+            'attah17': '14072005',
+            'ayan25': '250112',
+            'noman17': '17092004'
+        };
+
+        const SHOW_KEY = 'Running Wild with Alman';
+        const VLOG_KEY = 'Vlogs'; // Key for the new vlog series
+
+        const CONTENT_DATA = {
+            'shows': {
+                [SHOW_KEY]: {
+                    description: 'Alman takes you on breathtaking adventures across the globe in this high-octane survival series.',
+                    seasons: [
+                        { name: 'Season 1', posterFile: 'running1.png', 
+                          episodes: [
+                            { name: 'Episode 1', url: 'https://youtu.be/C2iQDN0SzAQ' },
+                            { name: 'Episode 2', url: 'https://youtu.be/cORYo7-Rzhk' },
+                            { name: 'Episode 3', url: 'https://youtu.be/HReUzctsIdM' },
+                            { name: 'Episode 4', url: 'https://youtu.be/a3UdsHKE6pw' }
+                          ]},
+                        { name: 'Season 2', posterFile: 'running2.png', 
+                          episodes: [
+                            { name: 'Episode 1', url: 'https://youtu.be/pgVy3dcf2uc' }
+                          ]},
+                        { name: 'Season 3', posterFile: 'running3.png', 
+                          episodes: [
+                            { name: 'Episode 1', url: 'https://youtu.be/kFQ99LBpdxQ' },
+                            { name: 'Episode 2', url: 'https://youtu.be/2Zc9fTBC4yQ' }
+                          ]}
+                    ]
+                }
+            },
+            'movies': [
+                { 
+                    title: 'Project Nocturne', 
+                    description: 'A classified mission to the dark side of the moon uncovers a shocking secret.',
+                    posterFile: 'nocturne.png', // Local file name
+                    url: 'https://youtu.be/NWRo-pkNLzE'
+                }
+            ],
+            // MODIFIED VLOG DATA STRUCTURE to match a 'series' for the modal
+            'vlogs': {
+                [VLOG_KEY]: {
+                    description: 'The latest trailers and exciting announcements from the studio.',
+                    vlogEpisodes: [
+                        { 
+                            name: 'Godzilla x Kong', 
+                            epNumber: 1, // Added episode number for display
+                            url: 'https://youtu.be/qoexsa_ySks' 
+                        },
+                        { 
+                            name: 'Mission Impossible', 
+                            epNumber: 2, // Added episode number for display
+                            url: 'https://youtu.be/Sjsr1VxNn6c'
+                        }
+                    ],
+                    posterFile: 'Vlogs.png' // Single poster for the vlog series
+                }
+            }
+        };
+        
+        // --- Core Application Functions ---
+
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (VALID_CREDENTIALS[username] === password) {
+                // Smooth transition to content page
+                document.getElementById('login-page').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('login-page').style.display = 'none';
+                    const contentPage = document.getElementById('content-page');
+                    contentPage.style.display = 'block';
+                    // Trigger fade-in effect
+                    setTimeout(() => contentPage.style.opacity = '1', 10);
+                    switchContent('shows'); // Default to shows page
+                }, 500);
+            } else {
+                showMessageBox('Login Failed', 'Invalid Username or Password. Please check your credentials.');
+            }
+        }
+        
+        function logout() {
+            // Smooth transition back to login page
+            const contentPage = document.getElementById('content-page');
+            contentPage.style.opacity = '0';
+            setTimeout(() => {
+                contentPage.style.display = 'none';
+                document.getElementById('login-page').style.display = 'flex';
+                // Trigger fade-in effect
+                setTimeout(() => document.getElementById('login-page').style.opacity = '1', 10);
+            }, 500);
+        }
+
+        function switchContent(section) {
+            const mainContent = document.getElementById('main-content');
+            const navButtons = document.querySelectorAll('.nav-button');
+
+            // 1. Update Navigation
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`nav-${section}`).classList.add('active');
+
+            // 2. Clear previous content
+            mainContent.innerHTML = '';
+            
+            // 3. Render new content
+            if (section === 'shows') {
+                renderShows(mainContent);
+            } else if (section === 'movies') {
+                renderMovies(mainContent);
+            } else if (section === 'home') {
+                renderHome(mainContent);
+            } else if (section === 'vlogs') { 
+                renderVlogs(mainContent); // Call the specific vlog renderer
+            }
+        }
+
+        function renderHome(container) {
+            // ... (Home function remains the same) ...
+            container.innerHTML = `
+                <div class="container-padding">
+                    <h1 class="text-3xl font-bold mb-4">Welcome to WATVIO!</h1>
+                    <p class="text-lg mb-6" style="color: var(--text-muted);">Your personalized streaming destination powered by September Industries.</p>
+                    
+                    <div class="bg-gradient-to-r from-secondary-bg to-primary-bg p-6 rounded-xl shadow-lg border" style="border-width: 1px; border-color: var(--accent-color);">
+                        <h2 class="text-2xl font-bold mb-3" style="color: var(--accent-color);">Featured Series: ${SHOW_KEY}</h2>
+                        <p>${CONTENT_DATA.shows[SHOW_KEY].description}</p>
+                        <button class="watvio-btn mt-4" onclick="switchContent('shows')">Explore Seasons</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderShows(container) {
+            // ... (Shows function remains the same) ...
+            const showData = CONTENT_DATA.shows[SHOW_KEY];
+            let html = `
+                <div class="content-row">
+                    <h2>${SHOW_KEY} - All Seasons</h2>
+                    <div class="content-scroll-container">
+            `;
+
+            showData.seasons.forEach((season, index) => {
+                const imageUrl = season.posterFile;
+                
+                // Clicking the card opens the episode modal for that specific season
+                html += `
+                    <div class="content-card group" onclick="openEpisodeModal('${SHOW_KEY}', ${index})">
+                        <img src="${imageUrl}" alt="${season.name} Poster">
+                        <div class="overlay-text">
+                            ${season.name}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+
+        function renderMovies(container) {
+            // ... (Movies function remains the same) ...
+            const movie = CONTENT_DATA.movies[0];
+            const imageUrl = movie.posterFile; 
+
+            container.innerHTML = `
+                <div class="content-row">
+                    <h2>WATVIO Movie Exclusives</h2>
+                    <div class="content-scroll-container">
+                        <div class="content-card group" style="flex: 0 0 320px; height: 180px;" onclick="window.open('${movie.url}', '_blank')">
+                            <img src="${imageUrl}" alt="${movie.title} Poster">
+                            <div class="overlay-text">
+                                ${movie.title}
+                                <span class="block text-xs font-normal" style="color: var(--accent-color);">Watch Trailer</span>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+            `;
+        }
+        
+        // NEW RENDER FUNCTION FOR VLOGS (Displays ONE clickable card)
+        function renderVlogs(container) {
+            const vlogSeries = CONTENT_DATA.vlogs[VLOG_KEY];
+            const imageUrl = vlogSeries.posterFile; 
+
+            container.innerHTML = `
+                <div class="content-row">
+                    <h2>${VLOG_KEY}</h2>
+                    <div class="container-padding">
+                        <p class="text-sm mb-4" style="color: var(--text-muted);">${vlogSeries.description}</p>
+                    </div>
+                    <div class="content-scroll-container">
+                        <div class="content-card group" style="flex: 0 0 320px; height: 180px;" onclick="openVlogModal('${VLOG_KEY}')">
+                            <img src="${imageUrl}" alt="${VLOG_KEY} Poster">
+                            <div class="overlay-text">
+                                ${VLOG_KEY}
+                                <span class="block text-xs font-normal" style="color: var(--accent-color);">Watch Vlogs/Trailers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        // --- Modal Functions ---
+
+        function openPlansModal() {
+            document.getElementById('plans-modal').style.display = 'block';
+        }
+
+        function closePlansModal() {
+            document.getElementById('plans-modal').style.display = 'none';
+        }
+
+        function openEpisodeModal(showNameKey, seasonIndex) {
+            const show = CONTENT_DATA.shows[showNameKey];
+            const season = show.seasons[seasonIndex];
+            
+            document.getElementById('episode-modal-title').textContent = `${showNameKey} - ${season.name}`;
+            const linksContainer = document.getElementById('episode-links-container');
+            linksContainer.innerHTML = ''; 
+
+            season.episodes.forEach((ep, index) => {
+                const link = document.createElement('a');
+                link.href = ep.url;
+                link.target = '_blank';
+                link.classList.add('episode-link');
+                link.innerHTML = `
+                    <span class="ep-number">S${seasonIndex + 1} E${index + 1}</span>
+                    <span class="ep-title">${ep.name}</span>
+                `;
+                linksContainer.appendChild(link);
+            });
+
+            document.getElementById('episode-modal').style.display = 'block';
+        }
+
+        // NEW MODAL FUNCTION for Vlogs
+        function openVlogModal(vlogKey) {
+            const vlogSeries = CONTENT_DATA.vlogs[vlogKey];
+            
+            document.getElementById('episode-modal-title').textContent = vlogKey;
+            const linksContainer = document.getElementById('episode-links-container');
+            linksContainer.innerHTML = ''; 
+
+            vlogSeries.vlogEpisodes.forEach((vlog) => {
+                const link = document.createElement('a');
+                link.href = vlog.url;
+                link.target = '_blank';
+                link.classList.add('episode-link');
+                // Format the display exactly as requested: ep-1, ep-2, etc.
+                link.innerHTML = `
+                    <span class="ep-number">EP-${vlog.epNumber}</span>
+                    <span class="ep-title">${vlog.name}</span>
+                `;
+                linksContainer.appendChild(link);
+            });
+
+            document.getElementById('episode-modal').style.display = 'block';
+        }
+
+        // The close function works for both the show and vlog modal
+        function closeEpisodeModal() {
+            document.getElementById('episode-modal').style.display = 'none';
+        }
+
+        // --- Custom Message Box (Remains same) ---
+        function showMessageBox(title, message) {
+            let msgBox = document.getElementById('custom-message-box');
+            if (!msgBox) {
+                msgBox = document.createElement('div');
+                msgBox.id = 'custom-message-box';
+                msgBox.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; z-index: 999; 
+                    background-color: #e53e3e; color: white; padding: 15px 25px; 
+                    border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); 
+                    opacity: 0; transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+                    transform: translateX(100%);
+                `;
+                document.body.appendChild(msgBox);
+            }
+
+            msgBox.innerHTML = `<p class="font-bold">${title}</p><p class="text-sm">${message}</p>`;
+            
+            // Show animation
+            msgBox.style.transform = 'translateX(0)';
+            msgBox.style.opacity = '1';
+
+            // Hide animation
+            setTimeout(() => {
+                msgBox.style.transform = 'translateX(100%)';
+                msgBox.style.opacity = '0';
+            }, 3000);
+        }
+
+        // --- Event Listeners (Remains same) ---
+        document.getElementById('login-form').addEventListener('submit', login);
+
+        // Close modal when user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            const plansModal = document.getElementById('plans-modal');
+            const episodeModal = document.getElementById('episode-modal');
+
+            if (event.target == plansModal) {
+                closePlansModal();
+            }
+            if (event.target == episodeModal) {
+                closeEpisodeModal();
+            }
+        }
+    </script>
+
+</body>
+
+</html>
