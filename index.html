@@ -383,6 +383,7 @@
                 <button id="nav-shows" class="nav-button" onclick="switchContent('shows')">Shows</button>
                 <button id="nav-movies" class="nav-button" onclick="switchContent('movies')">Movies</button>
                 <button id="nav-vlogs" class="nav-button" onclick="switchContent('vlogs')">Vlogs</button>
+                <button id="nav-explainers" class="nav-button" onclick="switchContent('explainers')">WATVIO Explainers</button>
             </nav>
             <div class="ml-auto">
                 <button class="watvio-btn btn-outline text-sm px-4 py-2" onclick="logout()">Logout</button>
@@ -438,7 +439,9 @@
         const VALID_CREDENTIALS = {
             'attah17': '14072005',
             'ayan25': '250112',
-            'noman17': '17092004'
+            'noman17': '17092004',
+            // Credential Added
+            'subhan11': '11022010'
         };
 
         const SHOW_KEY = 'Running Wild with Alman';
@@ -552,6 +555,8 @@
                 renderHome(mainContent);
             } else if (section === 'vlogs') { 
                 renderVlogs(mainContent); // Call the specific vlog renderer
+            } else if (section === 'explainers') { // MODIFICATION: Added Explainers renderer
+                renderExplainers(mainContent);
             }
         }
 
@@ -619,7 +624,7 @@
             `;
         }
         
-        // NEW RENDER FUNCTION FOR VLOGS (Displays ONE clickable card)
+        // RENDER FUNCTION for VLOGS
         function renderVlogs(container) {
             const vlogSeries = CONTENT_DATA.vlogs[VLOG_KEY];
             const imageUrl = vlogSeries.posterFile; 
@@ -636,6 +641,31 @@
                             <div class="overlay-text">
                                 ${VLOG_KEY}
                                 <span class="block text-xs font-normal" style="color: var(--accent-color);">Watch Vlogs/Trailers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // MODIFICATION: New RENDER FUNCTION for Explainers
+        function renderExplainers(container) {
+            const EXPLAINERS_LINK = 'https://youtube.com/playlist?list=PLpc3Oz3Gy3FCiTFhAYBYuu1MWsQDm0pYJ&si=e7Otb_Tb48xavtfv';
+            const EXPLAINERS_TITLE = 'WATVIO Explainers';
+            const EXPLAINERS_POSTER = 'watvio explainers.png';
+
+            container.innerHTML = `
+                <div class="content-row">
+                    <h2>${EXPLAINERS_TITLE}</h2>
+                    <div class="container-padding">
+                        <p class="text-lg mb-6" style="color: var(--text-muted);">Click the thumbnail below to access the full YouTube playlist of WATVIO tutorials and guides.</p>
+                    </div>
+                    <div class="content-scroll-container">
+                        <div class="content-card group" style="flex: 0 0 320px; height: 180px;" onclick="window.open('${EXPLAINERS_LINK}', '_blank')">
+                            <img src="${EXPLAINERS_POSTER}" alt="${EXPLAINERS_TITLE} Thumbnail">
+                            <div class="overlay-text">
+                                ${EXPLAINERS_TITLE}
+                                <span class="block text-xs font-normal" style="color: var(--accent-color);">Click to Watch Playlist</span>
                             </div>
                         </div>
                     </div>
